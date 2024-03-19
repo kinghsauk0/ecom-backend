@@ -21,4 +21,9 @@ app.use(urlencoded({
 app.use(cookieParser())
 app.use(express.static("public"))
 
+// routes import
+import productRouder from "./routes/Prouduct.routes.js"
+
+// routes declaration
+app.use("/api/v1/product",productRouder)
 export {app}
