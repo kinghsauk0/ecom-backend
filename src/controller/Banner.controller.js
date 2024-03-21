@@ -4,6 +4,7 @@ import { uploadOneCloudinary } from "../utits/cloudinary.js";
 import ApiResponse from "../utits/ApiResponse.js";
 import Banner from "../models/banner/Banner.model.js";
 
+
 const uplodeBanner = AsncHandler(async(req,res) => {
    const bannerLocalPath= await req.files?.banner[0]?.path
    //console.log(bannerLocalPath)
@@ -23,7 +24,7 @@ const uplodeBanner = AsncHandler(async(req,res) => {
    }
 
    return res.status(201).json(
-    new ApiResponse(200, createdProduct, "Banner created")
+    new ApiResponse(200,  "Banner created",createdProduct)
    )
 })
 
@@ -41,16 +42,44 @@ const getBanner = AsncHandler(async(req,res) =>{
 
 
 const deletedBanner = AsncHandler(async (req, res) => {
-   const para = await req.params.id
-   if(!para){
-      throw new ApiError(401, "id is not found")
-   }
-   const dBanner = await Banner.findByIdAndDelete(para);
-   console.log(dBanner)
-   if (!dBanner) {
-      throw new ApiError(500, "Banner not deleted");
-   }
-   return res.status(200).json(new ApiResponse(200, "Banner deleted",para));
+
+   const id = req.params.id
+  if(!id) {
+   throw new ApiError("404", "id is not define")
+  }
+  const delet = await Banner.deleteOne({_id:id})
+
+  if(!delet) {
+   throw new ApiError("404", "banar is not deleted")
+  }
+  return res.status(201).json(
+   new ApiResponse(200,"banner is deleted",)
+  )
 });
 
-export {uplodeBanner,getBanner,deletedBanner}
+
+const updateBanner = AsncHandler(async(req, res) =>{
+   const bannerLocalPath= await req.files?.banner[0]?.path
+   //console.log(bannerLocalPath)
+   if(!bannerLocalPath){
+      throw new ApiError(400, "slide image is required")
+   }
+   const slide= await uploadOneCloudinary(bannerLocalPath)
+   if(!slide){
+    throw new ApiError(400, "slide image is required")
+ }
+ const id =req.params.id
+ const update = await Banner.findByIdAndUpdate({_id:id},
+   {
+      $set:{
+          banner: slide.url
+      }
+  },
+  {new: true}
+   )
+   return res.status(201).json(
+      new ApiResponse(200,"banner is updated",update)
+     )
+})
+
+export {uplodeBanner,getBanner,deletedBanner,updateBanner}
