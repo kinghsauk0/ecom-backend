@@ -22,8 +22,8 @@ app.use(cookieParser())
 app.use(express.static("public"))
 
 // routes import
-import productRouder from "./routes/Prouduct.routes.js"
+import BannerRouder from "./routes/Banner.routes.js"
 
 // routes declaration
-app.use("/api/v1/product",productRouder)
+app.use("/api/v1/product",BannerRouder)
 export {app}

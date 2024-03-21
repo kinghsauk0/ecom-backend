@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
-const ProductSchema = new Schema(
+const BannerSchema = new Schema(
   {
-    slide: {
+    banner: {
       type: String,
       require: true,
     },
@@ -12,5 +12,5 @@ const ProductSchema = new Schema(
   }
 );
 
-const Product = mongoose.model("Product", ProductSchema);
-export default Product;
+const Banner = mongoose.model("Banner", BannerSchema);
+export default Banner;
