@@ -21,4 +21,5 @@ router.route("/updatebanner/:id").patch(upload.fields([
     }
 ]),updateBanner)
 
+
 export default router
