@@ -10,7 +10,7 @@ const RegisterUser = AsncHandler(async(req,res)=>{
     const {username,email,password}=req.body;
 
     // check if the user has provided all required data
-    if (!username && !email && !password) {
+    if (!username || !email || !password) {
         throw new ApiError(404, "User data is incomplete");
     }
     
@@ -52,7 +52,7 @@ const RegisterUser = AsncHandler(async(req,res)=>{
 const LoginUser = AsncHandler(async(req,res) =>{
     const {email, password} = req.body
     // check email or password fild is there
-    if (!email && !password) {
+    if (!email || !password) {
         throw new ApiError(404, "User data is incomplete");
     }
 
